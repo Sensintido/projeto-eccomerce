@@ -1,9 +1,19 @@
-// ProductCard.tsx
 import { FaStar } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import "./ProductCard.css";
 
-const ProductCard = ({ produto }) => {
+interface Produto {
+  id: number;
+  name: string;
+  preco: number;
+  precoOriginal: number;
+  desconto: number;
+  imageUrl: string;
+  rating: number;
+  reviews: number;
+}
+
+const ProductCard = ({ produto }: { produto: Produto }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
