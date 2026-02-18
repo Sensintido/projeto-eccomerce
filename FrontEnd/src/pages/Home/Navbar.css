@@ -8,7 +8,6 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
-/* Faixa Vermelha de Ofertas */
 .top-bar {
   background-color: #ff3131;
   color: white;
@@ -20,11 +19,17 @@
   letter-spacing: 1px;
 }
 
-/* Navbar Principal */
 .main-nav {
   background-color: #0a0a0a;
   border-bottom: 1px solid #1a1a1a;
   padding: 15px 8% 5px 8%;
+  transition: all 0.3s ease;
+}
+
+.main-nav.scrolled {
+  padding: 10px 8% 0 8%;
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(10px);
 }
 
 .nav-container {
@@ -40,6 +45,7 @@
   align-items: center;
   gap: 12px;
   text-decoration: none;
+  user-select: none;
 }
 
 .logo-img {
@@ -48,40 +54,50 @@
   object-fit: contain;
 }
 
+.logo-icon img {
+  height: 52px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(255, 49, 49, 0.5));
+  transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+.logo:hover .logo-icon img {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 18px rgba(255, 49, 49, 0.95));
+}
+
 .logo-text {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: white;
+  font-weight: 900;
+  font-size: 1.65rem;
+  color: #fff;
+  letter-spacing: -1px;
 }
 
 .logo-text span {
   color: #ff3131;
 }
 
+.logo:hover .logo-text span {
+  text-shadow: 0 0 10px rgba(255, 49, 49, 0.8);
+}
+
 .search-bar {
-  position: relative; /* Referência para a lupa */
+  position: relative;
   flex: 1;
   max-width: 550px;
 }
 
 .search-bar input {
   width: 100%;
-  padding: 12px 45px 12px 20px; /* O 45px na direita evita que o texto passe por baixo da lupa */
+  padding: 12px 45px 12px 20px;
   background: #141414;
   border: 1px solid #252525;
   border-radius: 8px;
   color: white;
   outline: none;
-}
-
-.search-icon {
-  position: absolute;
-  right: -50px;      
-  top: 50%;         
-  transform: translateY(-50%); 
-  color: #555;
-  font-size: 1.2rem;
-  pointer-events: none; 
+  box-sizing: border-box;
+  font-size: 0.9rem;
 }
 
 .search-bar input:focus {
@@ -90,6 +106,15 @@
   box-shadow: 0 0 10px rgba(255, 49, 49, 0.1);
 }
 
+.search-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #555;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
 
 .nav-actions {
   display: flex;
@@ -97,14 +122,13 @@
   gap: 25px;
 }
 
-/* Garante que o link de login tenha o mesmo visual do antigo botão */
 .action-item-link {
   display: flex;
   align-items: center;
   gap: 8px;
   background: none;
   border: none;
-  color: #fff; /* Ou a cor que você definiu para o texto */
+  color: #fff;
   text-decoration: none;
   cursor: pointer;
   font-size: 0.9rem;
@@ -112,7 +136,7 @@
 }
 
 .action-item-link:hover {
-  color: #ff3131; /* Cor de destaque da sua loja */
+  color: #ff3131;
 }
 
 .action-item-link svg {
@@ -136,68 +160,6 @@
   color: #ff3131;
 }
 
-.cart-button {
-  background: #141414;
-  border: 1px solid #252525;
-  color: white;
-  width: 45px;
-  height: 45px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.cart-button:hover {
-  border-color: #ff3131;
-  color: #ff3131;
-  transform: translateY(-2px);
-}
-
-.categories-bar {
-  display: flex;
-  gap: 35px;
-  padding: 0;           
-  height: 0;            
-  overflow: hidden;     
-  opacity: 0;        
-  border-top: 1px solid transparent;
-  transition: all 0.4s ease; 
-}
-
-.categories-bar a {
-  text-decoration: none;
-  color: #999;
-  font-size: 0.85rem;
-  font-weight: 200;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.3s;
-}
-
-.categories-bar a:hover {
-  color: white;
-}
-
-.categories-bar a svg {
-  font-size: 1.1rem;
-  color: #555;
-  transition: color 0.3s;
-}
-
-.categories-bar a:hover svg {
-  color: #ff3131;
-}
-.header:hover .categories-bar {
-  height: 10px;         
-  padding: 15px 0;
-  opacity: 1;           
-  border-top: 1px solid #1a1a1a;
-}
 .cart-button-link {
   text-decoration: none;
   color: #fff;
@@ -215,14 +177,14 @@
   position: relative;
   display: flex;
   align-items: center;
-  font-size: 1.8rem; /* Ajuste o tamanho do ícone aqui */
+  font-size: 1.8rem;
 }
 
 .cart-badge {
   position: absolute;
   top: -5px;
   right: -8px;
-  background-color: #ff3131; /* Vermelho MagiTech */
+  background-color: #ff3131;
   color: white;
   font-size: 0.7rem;
   font-weight: bold;
@@ -232,7 +194,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #1a1a1a; /* Borda para destacar do fundo escuro */
+  border: 2px solid #1a1a1a;
 }
 
 .user-logged {
@@ -244,57 +206,7 @@
 }
 
 .user-logged strong {
-  color: #ff3131; /* Cor de destaque da MAGITECH */
-}
-
-/* LOGO */
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  text-decoration: none;
-  user-select: none;
-}
-
-.logo-icon img {
-  height: 52px;
-  width: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 0 8px rgba(255, 49, 49, 0.5));
-  transition: transform 0.35s ease, filter 0.35s ease;
-}
-
-
-.logo:hover .logo-icon img {
-  transform: scale(1.08);
-  filter: drop-shadow(0 0 18px rgba(255, 49, 49, 0.95));
-}
-
-
-.logo-text {
-  font-weight: 900;
-  font-size: 1.65rem;
-  color: #fff;
-  letter-spacing: -1px;
-}
-
-.logo-text span {
   color: #ff3131;
-}
-
-
-.logo:hover .logo-text span {
-  text-shadow: 0 0 10px rgba(255, 49, 49, 0.8);
-}
-
-.main-nav {
-  transition: all 0.3s ease;
-}
-
-.main-nav.scrolled {
-  padding: 10px 8% 0 8%;
-  background: rgba(10, 10, 10, 0.95);
-  backdrop-filter: blur(10px);
 }
 
 .btn-logout {
@@ -313,16 +225,109 @@
   background: #d12626;
 }
 
-@media (max-width: 900px) {
-  .categories-bar {
-    overflow-x: auto;
-    white-space: nowrap;
-    gap: 20px;
+.categories-bar {
+  display: flex;
+  gap: 35px;
+  padding: 0;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  border-top: 1px solid transparent;
+  transition: all 0.4s ease;
+}
+
+.categories-bar a {
+  text-decoration: none;
+  color: #999;
+  font-size: 0.85rem;
+  font-weight: 200;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.categories-bar a:hover {
+  color: white;
+}
+
+.header:hover .categories-bar {
+  height: 10px;
+  padding: 15px 0;
+  opacity: 1;
+  border-top: 1px solid #1a1a1a;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  .main-nav {
+    padding: 12px 5% 5px 5%;
   }
+
   .nav-container {
+    gap: 12px;
+    padding-bottom: 10px;
+  }
+
+  .logo-text {
+    font-size: 1.3rem;
+  }
+
+  .logo-img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .search-bar {
+    max-width: 100%;
+  }
+
+  .search-bar input {
+    padding: 10px 40px 10px 14px;
+    font-size: 0.85rem;
+  }
+
+  .action-item-link span {
+    display: none;
+  }
+
+  .user-logged span {
+    display: none;
+  }
+
+  .nav-actions {
     gap: 15px;
   }
-  .action-item span {
-    display: none; 
+
+  .cart-icon-wrapper {
+    font-size: 1.5rem;
+  }
+
+  .categories-bar {
+    gap: 20px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .categories-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .header:hover .categories-bar {
+    height: 20px;
+    padding: 12px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-text {
+    font-size: 1.1rem;
+  }
+
+  .logo-img {
+    width: 28px;
+    height: 28px;
   }
 }

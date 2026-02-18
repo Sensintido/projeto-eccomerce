@@ -120,3 +120,30 @@
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 24px;
 }
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  .search-results-container {
+    padding: 80px 4% 40px 4%;
+  }
+
+  .search-info h1 {
+    font-size: 1.2rem;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-empty h2 {
+    font-size: 1.1rem;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}

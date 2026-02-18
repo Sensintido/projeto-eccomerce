@@ -176,7 +176,6 @@ body {
   border-radius: 50px;
 }
 
-
 .price-tag {
   position: absolute;
   top: -1%;
@@ -189,12 +188,8 @@ body {
 }
 
 @keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 
 .price-tag p {
@@ -305,12 +300,14 @@ body {
   width: 100%;
 }
 
+/* ===== MOBILE ===== */
 @media (max-width: 1024px) {
   .hero {
     flex-direction: column;
     text-align: center;
     padding: 80px 8% 60px 8%;
     gap: 40px;
+    min-height: auto;
   }
 
   .hero-content {
@@ -319,6 +316,7 @@ body {
 
   .hero-content h1 {
     font-size: 3.5rem;
+    letter-spacing: -2px;
   }
 
   .hero-content p {
@@ -344,19 +342,19 @@ body {
 
   .info-bar {
     grid-template-columns: 1fr;
-    gap: 30px;
-    padding: 40px 30px;
+    gap: 0;
+    padding: 10px 20px;
   }
 
   .info-item {
     border-right: none;
     border-bottom: 1px solid #2a2a2a;
-    padding: 0 0 30px 0;
+    padding: 20px 0;
+    justify-content: flex-start;
   }
 
   .info-item:last-child {
     border-bottom: none;
-    padding-bottom: 0;
   }
 
   .products-grid {
@@ -366,8 +364,17 @@ body {
 }
 
 @media (max-width: 768px) {
+  .hero {
+    padding: 70px 5% 50px 5%;
+  }
+
   .hero-content h1 {
-    font-size: 2.8rem;
+    font-size: 2.5rem;
+    letter-spacing: -1px;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
   }
 
   .hero-buttons {
@@ -378,13 +385,62 @@ body {
   .btn-primary,
   .btn-secondary {
     width: 100%;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .hero-image img {
+    max-width: 100%;
+    border-radius: 20px;
   }
 
   .price-tag {
-    padding: 15px 20px;
+    padding: 10px 15px;
+    top: 10px;
+    right: 10px;
   }
 
   .price-tag strong {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
+  }
+
+  .info-bar {
+    margin: 0 5%;
+    border-radius: 15px;
+  }
+
+  .offers-section {
+    padding: 40px 5% 60px 5%;
+  }
+
+  .offers-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .offers-header h2 {
+    font-size: 1.6rem;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .badge {
+    font-size: 0.7rem;
+    padding: 6px 14px;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
 }
