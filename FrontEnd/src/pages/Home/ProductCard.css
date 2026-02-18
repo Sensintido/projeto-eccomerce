@@ -168,7 +168,6 @@
   .product-info h3 {
     font-size: 0.8rem;
     height: auto;
-    -webkit-line-clamp: 2;
   }
 
   .installments {
