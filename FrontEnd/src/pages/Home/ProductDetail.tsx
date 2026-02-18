@@ -9,6 +9,7 @@ import { useCart } from './CartContext';
 import Modal from './Modal';
 import './ProductDetail.css';
 
+
 interface Product {
   id: number;
   name: string;
@@ -45,13 +46,15 @@ function ProductDetail() {
   const [modalOpen, setModalOpen] = useState(false);
 
   const { addToCart } = useCart();
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
-  useEffect(() => {
-    fetch(`http://localhost:8080/api/produtos/${id}`)
-      .then(res => res.json())
-      .then(data => setProduct(data))
-      .catch(error => console.error('Erro ao buscar produto:', error));
-  }, [id]);
+    useEffect(() => {
+      fetch(`${API_URL}/api/produtos/${id}`)
+        .then(res => res.json())
+        .then(data => setProduct(data))
+        .catch(error => console.error('Erro ao buscar produto:', error));
+    }, [id]);
+
 
   if (!product) {
     return (

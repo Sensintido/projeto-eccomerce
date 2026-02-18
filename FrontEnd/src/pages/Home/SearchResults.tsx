@@ -5,6 +5,8 @@ import Navbar from './Navbar';
 import ProductCard from './ProductCard';
 import './SearchResults.css';
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('q') || '';
@@ -16,7 +18,8 @@ const SearchResults = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios.get('http://localhost:8080/api/produtos')
+
+    axios.get(`${API_URL}/api/produtos`)
       .then(res => {
         setProdutos(res.data);
         setLoading(false);
@@ -25,6 +28,7 @@ const SearchResults = () => {
         console.error('Erro ao buscar produtos:', err);
         setLoading(false);
       });
+
   }, []);
 
   useEffect(() => {
@@ -45,16 +49,22 @@ const SearchResults = () => {
   return (
     <>
       <Navbar />
+
       <div className="search-results-container">
         <div className="search-results-header">
           <button className="back-button" onClick={() => navigate('/')}>
             ← Voltar
           </button>
+
           <div className="search-info">
             <h1>
               Resultados para: <span>"{query}"</span>
             </h1>
-            <p>{filtrados.length} produto{filtrados.length !== 1 ? 's' : ''} encontrado{filtrados.length !== 1 ? 's' : ''}</p>
+            <p>
+              {filtrados.length} produto
+              {filtrados.length !== 1 ? 's' : ''} encontrado
+              {filtrados.length !== 1 ? 's' : ''}
+            </p>
           </div>
         </div>
 
@@ -67,7 +77,9 @@ const SearchResults = () => {
             <span className="search-empty-icon">🔍</span>
             <h2>Nenhum produto encontrado</h2>
             <p>Tente buscar por outro termo ou navegue pelas categorias.</p>
-            <button onClick={() => navigate('/')}>Ver todos os produtos</button>
+            <button onClick={() => navigate('/')}>
+              Ver todos os produtos
+            </button>
           </div>
         ) : (
           <div className="products-grid">

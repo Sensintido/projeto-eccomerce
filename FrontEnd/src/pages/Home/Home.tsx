@@ -6,12 +6,15 @@ import ProductCard from "../Home/ProductCard";
 import './Home.css';
 import rtxImage from '../../assets/rtx.webp';
 
+// ✅ URL da API dinâmica
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+
 const Home = () => {
   const [produtos, setProdutos] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:8080/api/produtos")
+    axios.get(`${API_URL}/api/produtos`)
       .then(response => setProdutos(response.data))
       .catch(error => console.error("Erro ao buscar produtos:", error));
   }, []);
@@ -36,7 +39,10 @@ const Home = () => {
               <button className="btn-primary" onClick={scrollToOfertas}>
                 Ver Ofertas
               </button>
-              <button className="btn-secondary" onClick={() => navigate('/categoria/Hardware')}>
+              <button
+                className="btn-secondary"
+                onClick={() => navigate('/categoria/Hardware')}
+              >
                 Hardware
               </button>
             </div>
@@ -72,11 +78,11 @@ const Home = () => {
           </div>
         </section>
 
-        {/* ← id adicionado aqui */}
         <section className="offers-section" id="ofertas">
           <div className="offers-header">
             <h2>Ofertas Imperdíveis</h2>
           </div>
+
           <div className="products-grid">
             {produtos.map((item: any) => (
               <ProductCard key={item.id} produto={item} />

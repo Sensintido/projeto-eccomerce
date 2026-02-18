@@ -4,6 +4,8 @@ import Navbar from './Navbar';
 import ProductCard from './ProductCard';
 import './CategoryPage.css';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 // 1. Atualize a interface Category para bater com o Back-end
 interface Category {
   id: number;
@@ -21,7 +23,7 @@ interface Product {
   rating: number;
   reviews: number;
   quantidade: number;
-  categories: Category[]; // Mudou de category para categories (array)
+  categories: Category[];
 }
 
 function CategoryPage() {
@@ -33,11 +35,10 @@ function CategoryPage() {
     if (!categoria) return;
 
     setLoading(true);
-    
-   
+
     const categoriaUrl = encodeURIComponent(categoria);
 
-    fetch(`http://localhost:8080/api/produtos/categoria/${categoriaUrl}`)
+    fetch(`${API_URL}/api/produtos/categoria/${categoriaUrl}`)
       .then(res => {
         if (!res.ok) {
           throw new Error('Erro ao buscar produtos');
@@ -50,7 +51,7 @@ function CategoryPage() {
       })
       .catch(error => {
         console.error('Erro na requisição:', error);
-        setProdutos([]); 
+        setProdutos([]);
         setLoading(false);
       });
   }, [categoria]);
@@ -70,20 +71,24 @@ function CategoryPage() {
     <>
       <Navbar />
       <div className="category-page">
-        <h1 className="category-title">
-          {categoria}
-        </h1>
+        <h1 className="category-title">{categoria}</h1>
+
         <p className="category-subtitle">
-          {produtos.length} {produtos.length === 1 ? 'produto encontrado' : 'produtos encontrados'}
+          {produtos.length}{' '}
+          {produtos.length === 1
+            ? 'produto encontrado'
+            : 'produtos encontrados'}
         </p>
-        
+
         <div className="products-grid">
           {produtos.length > 0 ? (
             produtos.map(produto => (
               <ProductCard key={produto.id} produto={produto} />
             ))
           ) : (
-            <p className="no-products">Nenhum produto encontrado na categoria "{categoria}".</p>
+            <p className="no-products">
+              Nenhum produto encontrado na categoria "{categoria}".
+            </p>
           )}
         </div>
       </div>
