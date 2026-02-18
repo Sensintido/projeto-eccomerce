@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoSearch, IoCartOutline, IoPersonOutline } from "react-icons/io5";
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from './CartContext';
