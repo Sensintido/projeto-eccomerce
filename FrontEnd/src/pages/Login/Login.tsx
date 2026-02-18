@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+
 interface CustomAlertProps {
   message: string;
   type: 'success' | 'warning' | 'error';
@@ -149,7 +151,7 @@ const Login: React.FC = () => {
     const endpoint = isLogin ? '/usuarios/login' : '/usuarios'; 
     
     try {
-      const response = await fetch(`http://localhost:8080${endpoint}`, {
+      const response = await fetch(`${API_URL}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
