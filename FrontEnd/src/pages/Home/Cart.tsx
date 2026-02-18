@@ -32,9 +32,19 @@ const Cart: React.FC = () => {
           <div className="cart-items-list">
             {cart.map(item => (
               <div key={item.id} className="cart-item-card">
-                <img src={item.imageUrl} alt={item.name} />
+                <img
+                  src={item.imageUrl}
+                  alt={item.name}
+                  onClick={() => navigate(`/produto/${item.id}`)}
+                  style={{ cursor: 'pointer' }}
+                />
                 <div className="cart-item-info">
-                  <h3>{item.name}</h3>
+                  <h3
+                    onClick={() => navigate(`/produto/${item.id}`)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {item.name}
+                  </h3>
                   <p className="unit-price">R$ {item.preco.toLocaleString('pt-BR')}</p>
                   <div className="quantity-controls">
                     <span>Qtd: {item.quantidade}</span>
