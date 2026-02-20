@@ -41,14 +41,12 @@ const Navbar: React.FC = () => {
     if (e.key === 'Enter') handleSearch();
   };
 
-  // ✅ Categorias com slug simples sem acento/caracteres especiais na URL
-  // O nome real da categoria (exibido e buscado) fica separado do slug da URL
   const categorias = [
     { slug: 'Hardware',     label: 'Hardware' },
     { slug: 'Perifericos',  label: 'Periféricos' },
     { slug: 'Computadores', label: 'Computadores' },
     { slug: 'Celulares',    label: 'Celulares' },
-    { slug: 'TV e Audio',   label: 'TV & Áudio' },
+    { slug: 'TV & Audio',  label: 'TV & Audio' },
   ];
 
   return (
