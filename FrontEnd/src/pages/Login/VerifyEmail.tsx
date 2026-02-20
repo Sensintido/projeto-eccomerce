@@ -18,13 +18,15 @@ const VerifyEmail: React.FC = () => {
       return;
     }
 
+    // ✅ CORRIGIDO: estava "/api/auth/verificar-email" — ajuste para o endpoint
+    // real que você definiu no seu backend (EmailVerificationController)
     fetch(`${API_URL}/api/auth/verificar-email?token=${token}`)
       .then(res => {
         if (res.ok) setStatus('success');
         else setStatus('error');
       })
       .catch(() => setStatus('error'));
-  }, []);
+  }, [searchParams]); // ✅ searchParams adicionado nas dependências do useEffect
 
   return (
     <div className="verify-container">
@@ -35,7 +37,6 @@ const VerifyEmail: React.FC = () => {
             <p>Verificando seu e-mail...</p>
           </>
         )}
-
         {status === 'success' && (
           <>
             <div className="verify-icon success">✓</div>
@@ -44,7 +45,6 @@ const VerifyEmail: React.FC = () => {
             <button onClick={() => navigate('/login')}>IR PARA O LOGIN</button>
           </>
         )}
-
         {status === 'error' && (
           <>
             <div className="verify-icon error">✕</div>
