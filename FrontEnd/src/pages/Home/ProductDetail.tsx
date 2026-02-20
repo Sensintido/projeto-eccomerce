@@ -9,7 +9,6 @@ import { useCart } from './CartContext';
 import Modal from './Modal';
 import './ProductDetail.css';
 
-
 interface Product {
   id: number;
   name: string;
@@ -35,7 +34,6 @@ interface Category {
   name: string;
 }
 
-
 type Tab = 'descricao' | 'especificacoes' | 'avaliacoes';
 
 function ProductDetail() {
@@ -48,13 +46,12 @@ function ProductDetail() {
   const { addToCart } = useCart();
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
-    useEffect(() => {
-      fetch(`${API_URL}/api/produtos/${id}`)
-        .then(res => res.json())
-        .then(data => setProduct(data))
-        .catch(error => console.error('Erro ao buscar produto:', error));
-    }, [id]);
-
+  useEffect(() => {
+    fetch(`${API_URL}/api/produtos/${id}`)
+      .then(res => res.json())
+      .then(data => setProduct(data))
+      .catch(error => console.error('Erro ao buscar produto:', error));
+  }, [id]);
 
   if (!product) {
     return (
@@ -74,20 +71,31 @@ function ProductDetail() {
     }
   };
 
+  // ✅ Pega a primeira categoria do produto para o breadcrumb
+  const firstCategory = product.categories && product.categories.length > 0
+    ? product.categories[0]
+    : null;
+
+  // ✅ Navega para a página da categoria ao clicar no breadcrumb
+  const handleCategoryClick = () => {
+    if (firstCategory) {
+      navigate(`/categoria/${encodeURIComponent(firstCategory.name)}`);
+    }
+  };
+
   return (
     <div className="product-detail-container">
       <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
-      <button className="back-button" onClick={() => navigate('/')}>
+      <button className="back-button" onClick={() => navigate(-1)}>
         ← Voltar
       </button>
 
+      {/* ✅ Breadcrumb totalmente clicável */}
       <div className="breadcrumb">
         <span onClick={() => navigate('/')} className="breadcrumb-link">Início</span>
         <span className="breadcrumb-separator">›</span>
-        <span className="breadcrumb-link">
-          {product.categories && product.categories.length > 0
-            ? product.categories[0].name
-            : 'Produtos'}
+        <span className="breadcrumb-link" onClick={handleCategoryClick}>
+          {firstCategory ? firstCategory.name : 'Produtos'}
         </span>
         <span className="breadcrumb-separator">›</span>
         <span className="breadcrumb-current">{product.name}</span>
@@ -99,7 +107,6 @@ function ProductDetail() {
             <img src={product.imageUrl} alt={product.name} />
           </div>
         </div>
-
 
         <div className="product-info-column">
           {hasDiscount && (
@@ -124,10 +131,13 @@ function ProductDetail() {
               <img src={categoriaIcon} className="spec-icon" alt="Categoria" />
               <div className="spec-details">
                 <span className="spec-label">Categoria</span>
-                <span className="spec-value">
-                  {product.categories && product.categories.length > 0
-                    ? product.categories[0].name
-                    : 'Geral'}
+                {/* ✅ Categoria clicável também no painel de specs */}
+                <span
+                  className="spec-value breadcrumb-link"
+                  onClick={handleCategoryClick}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {firstCategory ? firstCategory.name : 'Geral'}
                 </span>
               </div>
             </div>
@@ -167,7 +177,6 @@ function ProductDetail() {
           </div>
         </div>
 
- 
         <div className="product-purchase-column">
           <div className="purchase-box">
             <div className="price-section">
@@ -198,23 +207,23 @@ function ProductDetail() {
               </span>
             </div>
 
-           <div className="purchase-actions">
-            <button
-              className="btn-buy-now"
-              disabled={!inStock}
-              onClick={() => setModalOpen(true)}
-            >
-              {inStock ? 'COMPRAR AGORA' : 'INDISPONÍVEL'}
-            </button>
-            <button
-              className="btn-add-cart-secondary"
-              disabled={!inStock}
-              onClick={handleAddToCart}
-            >
-              <img src={shoppingCart} className="cart-icon" alt="Carrinho" />
-              Adicionar ao Carrinho
-            </button>
-          </div>
+            <div className="purchase-actions">
+              <button
+                className="btn-buy-now"
+                disabled={!inStock}
+                onClick={() => setModalOpen(true)}
+              >
+                {inStock ? 'COMPRAR AGORA' : 'INDISPONÍVEL'}
+              </button>
+              <button
+                className="btn-add-cart-secondary"
+                disabled={!inStock}
+                onClick={handleAddToCart}
+              >
+                <img src={shoppingCart} className="cart-icon" alt="Carrinho" />
+                Adicionar ao Carrinho
+              </button>
+            </div>
 
             <div className="purchase-info-items">
               <div className="info-item">
@@ -254,8 +263,6 @@ function ProductDetail() {
         </div>
 
         <div className="description-content">
-
-  
           {activeTab === 'descricao' && (
             <>
               <h2>Descrição Completa</h2>
@@ -263,17 +270,18 @@ function ProductDetail() {
             </>
           )}
 
-
           {activeTab === 'especificacoes' && (
             <>
               <h2>Especificações Técnicas</h2>
               <div className="specs-grid">
                 <div className="spec-row">
                   <span className="spec-key">Categoria:</span>
-                  <span className="spec-val">
-                    {product.categories && product.categories.length > 0
-                      ? product.categories[0].name
-                      : 'Sem categoria'}
+                  <span
+                    className="spec-val breadcrumb-link"
+                    onClick={handleCategoryClick}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {firstCategory ? firstCategory.name : 'Sem categoria'}
                   </span>
                 </div>
                 {product.marca && (
@@ -324,7 +332,6 @@ function ProductDetail() {
             </>
           )}
 
-      
           {activeTab === 'avaliacoes' && (
             <>
               <h2>Avaliações dos Clientes</h2>
@@ -343,7 +350,6 @@ function ProductDetail() {
               </div>
             </>
           )}
-
         </div>
       </div>
     </div>
