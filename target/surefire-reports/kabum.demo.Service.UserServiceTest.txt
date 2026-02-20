@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: kabum.demo.Service.UserServiceTest
--------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.323 s -- in kabum.demo.Service.UserServiceTest
