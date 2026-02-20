@@ -11,9 +11,9 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    // Esta query garante que o Spring procure o nome dentro da lista de categorias
-    @Query("SELECT p FROM Product p JOIN p.categories c WHERE LOWER(c.name) = LOWER(:name)")
+    @Query("SELECT p FROM Product p JOIN p.categories c WHERE LOWER(TRIM(c.name)) = LOWER(TRIM(:name))")
     List<Product> findByCategoryName(@Param("name") String name);
 
+ 
     List<Product> findByNameContainingIgnoreCase(String name);
 }
