@@ -59,10 +59,10 @@ const Login: React.FC = () => {
 
   const validarCPF = (cpf: string): boolean => {
     const cpfNumeros = cpf.replace(/\D/g, '');
-    
+
     if (cpfNumeros.length !== 11) return false;
     if (/^(\d)\1{10}$/.test(cpfNumeros)) return false;
-    
+
     let soma = 0;
     for (let i = 0; i < 9; i++) {
       soma += parseInt(cpfNumeros.charAt(i)) * (10 - i);
@@ -70,7 +70,7 @@ const Login: React.FC = () => {
     let resto = (soma * 10) % 11;
     if (resto === 10 || resto === 11) resto = 0;
     if (resto !== parseInt(cpfNumeros.charAt(9))) return false;
-    
+
     soma = 0;
     for (let i = 0; i < 10; i++) {
       soma += parseInt(cpfNumeros.charAt(i)) * (11 - i);
@@ -78,7 +78,7 @@ const Login: React.FC = () => {
     resto = (soma * 10) % 11;
     if (resto === 10 || resto === 11) resto = 0;
     if (resto !== parseInt(cpfNumeros.charAt(10))) return false;
-    
+
     return true;
   };
 
@@ -89,7 +89,7 @@ const Login: React.FC = () => {
 
   const handleCpfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value.replace(/\D/g, '');
-    
+
     if (value.length <= 11) {
       value = value.replace(/(\d{3})(\d)/, '$1.$2');
       value = value.replace(/(\d{3})(\d)/, '$1.$2');
@@ -100,7 +100,7 @@ const Login: React.FC = () => {
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value.replace(/\D/g, '');
-    
+
     if (value.length <= 11) {
       value = value.replace(/(\d{2})(\d)/, '($1) $2');
       value = value.replace(/(\d{5})(\d)/, '$1-$2');
@@ -110,46 +110,46 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.email) {
       showAlert("Por favor, preencha o campo de e-mail.", "warning");
       return;
     }
-    
+
     if (!validarEmail(formData.email)) {
       showAlert("E-mail inválido! Certifique-se de incluir '@' e um domínio válido.", "warning");
       return;
     }
-    
+
     if (!formData.password) {
       showAlert("Por favor, digite uma senha.", "warning");
       return;
     }
-    
+
     if (formData.password.length < 6) {
       showAlert("A senha deve ter pelo menos 6 caracteres.", "warning");
       return;
     }
-    
+
     if (!isLogin) {
       if (!formData.name) {
         showAlert("Por favor, preencha seu nome completo.", "warning");
         return;
       }
-      
+
       if (!formData.cpf) {
         showAlert("Por favor, preencha o CPF.", "warning");
         return;
       }
-      
+
       if (!validarCPF(formData.cpf)) {
         showAlert("CPF inválido! Verifique os números digitados.", "warning");
         return;
       }
     }
-    
-    const endpoint = isLogin ? '/usuarios/login' : '/usuarios'; 
-    
+
+    const endpoint = isLogin ? '/usuarios/login' : '/usuarios';
+
     try {
       const response = await fetch(`${API_URL}${endpoint}`, {
         method: 'POST',
@@ -158,17 +158,28 @@ const Login: React.FC = () => {
       });
 
       if (response.ok) {
-        const userData = await response.json(); 
-        localStorage.setItem('user', JSON.stringify(userData));
-        showAlert(isLogin ? "Bem-vindo de volta!" : "Cadastro realizado com sucesso!", "success");
-        setTimeout(() => {
-          navigate('/');
-          window.location.reload();
-        }, 1500);
+        if (isLogin) {
+          const userData = await response.json();
+          localStorage.setItem('user', JSON.stringify(userData));
+          showAlert("Bem-vindo de volta!", "success");
+          setTimeout(() => {
+            navigate('/');
+            window.location.reload();
+          }, 1500);
+        } else {
+          // Cadastro realizado — aguardando verificação de email
+          showAlert("Cadastro realizado! Verifique seu e-mail para ativar a conta.", "success");
+          setTimeout(() => {
+            setIsLogin(true);
+            setFormData({ name: '', email: '', cpf: '', phone: '', password: '' });
+          }, 2500);
+        }
       } else {
         const errorData = await response.json();
-        
-        if (response.status === 409) {
+
+        if (response.status === 403) {
+          showAlert("Conta não verificada. Verifique seu e-mail antes de entrar.", "warning");
+        } else if (response.status === 409) {
           if (errorData.message?.includes('CPF')) {
             showAlert("Este CPF já está cadastrado no sistema.", "error");
           } else if (errorData.message?.includes('e-mail')) {
@@ -191,11 +202,11 @@ const Login: React.FC = () => {
   return (
     <>
       {alert && <CustomAlert message={alert.message} type={alert.type} onClose={closeAlert} />}
-      
+
       <div className="login-container">
         <div className="login-box">
           <button className="fechar-login" onClick={() => navigate('/')}>×</button>
-          
+
           <div className="login-tabs">
             <button className={isLogin ? 'active' : ''} onClick={() => setIsLogin(true)}>ENTRAR</button>
             <button className={!isLogin ? 'active' : ''} onClick={() => setIsLogin(false)}>CADASTRAR</button>
@@ -203,13 +214,13 @@ const Login: React.FC = () => {
 
           <form onSubmit={handleSubmit} className="login-form">
             <h2>{isLogin ? 'Identificação' : 'Crie sua conta'}</h2>
-            
+
             <div className="input-group">
               <label>E-mail</label>
-              <input 
-                name="email" 
+              <input
+                name="email"
                 type="text"
-                placeholder="Seu e-mail" 
+                placeholder="Seu e-mail"
                 value={formData.email}
                 onChange={handleChange}
               />
@@ -219,33 +230,33 @@ const Login: React.FC = () => {
               <>
                 <div className="input-group">
                   <label>Nome Completo</label>
-                  <input 
-                    name="name" 
-                    type="text" 
-                    placeholder="Como no RG" 
+                  <input
+                    name="name"
+                    type="text"
+                    placeholder="Como no RG"
                     value={formData.name}
                     onChange={handleChange}
                   />
                 </div>
                 <div className="input-group">
                   <label>CPF</label>
-                  <input 
-                    name="cpf" 
-                    type="text" 
-                    placeholder="000.000.000-00" 
+                  <input
+                    name="cpf"
+                    type="text"
+                    placeholder="000.000.000-00"
                     value={formData.cpf}
-                    onChange={handleCpfChange} 
+                    onChange={handleCpfChange}
                     maxLength={14}
                   />
                 </div>
                 <div className="input-group">
                   <label>Telefone (Opcional)</label>
-                  <input 
-                    name="phone" 
-                    type="text" 
-                    placeholder="(00) 00000-0000" 
+                  <input
+                    name="phone"
+                    type="text"
+                    placeholder="(00) 00000-0000"
                     value={formData.phone}
-                    onChange={handlePhoneChange} 
+                    onChange={handlePhoneChange}
                     maxLength={15}
                   />
                 </div>
@@ -254,10 +265,10 @@ const Login: React.FC = () => {
 
             <div className="input-group">
               <label>Senha</label>
-              <input 
+              <input
                 name="password"
-                type="password" 
-                placeholder="********" 
+                type="password"
+                placeholder="********"
                 value={formData.password}
                 onChange={handleChange}
               />

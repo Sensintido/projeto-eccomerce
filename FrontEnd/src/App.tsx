@@ -6,6 +6,7 @@ import CategoryPage from './pages/Home/Category';
 import { CartProvider } from './pages/Home/CartContext';
 import Cart from './pages/Home/Cart';
 import SearchResults from './pages/Home/SearchResults';
+import VerifyEmail from './pages/Login/VerifyEmail';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/produto/:id" element={<ProductDetail />} />
           <Route path="/categoria/:categoria" element={<CategoryPage />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/carrinho" element={<Cart />} />
         </Routes>
       </BrowserRouter>
