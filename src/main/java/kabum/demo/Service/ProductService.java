@@ -1,6 +1,5 @@
 package kabum.demo.Service;
 
-import kabum.demo.Model.Category;
 import kabum.demo.Model.Product;
 import kabum.demo.Repository.CategoryRepository;
 import kabum.demo.Repository.ProductRepository;
@@ -41,6 +40,11 @@ public class ProductService {
         return productRepository.findByCategoryName(categoryName);
     }
 
+
+    public List<Product> buscarPorNome(String nome) {
+        return productRepository.findByNameContainingIgnoreCase(nome);
+    }
+
     public Product atualizar(Long id, Product produtoAtualizado) {
         return productRepository.findById(id).map(produtoExistente -> {
             produtoExistente.setName(produtoAtualizado.getName());
@@ -59,7 +63,6 @@ public class ProductService {
             produtoExistente.setCor(produtoAtualizado.getCor());
             produtoExistente.setPeso(produtoAtualizado.getPeso());
             produtoExistente.setDimensoes(produtoAtualizado.getDimensoes());
-
             return productRepository.save(produtoExistente);
         }).orElseThrow(() -> new RuntimeException("Produto não encontrado com o id: " + id));
     }

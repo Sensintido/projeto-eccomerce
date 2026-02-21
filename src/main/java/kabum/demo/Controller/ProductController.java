@@ -39,7 +39,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Product> atualizar(
-            @PathVariable Long id, 
+            @PathVariable Long id,
             @Valid @RequestBody Product product) {
         return ResponseEntity.ok(productService.atualizar(id, product));
     }
@@ -53,6 +53,13 @@ public class ProductController {
     @GetMapping("/categoria/{nome}")
     public ResponseEntity<List<Product>> listarPorCategoria(@PathVariable String nome) {
         List<Product> produtos = productService.listarPorCategoria(nome);
+        return ResponseEntity.ok(produtos);
+    }
+
+
+    @GetMapping("/busca")
+    public ResponseEntity<List<Product>> buscar(@RequestParam String nome) {
+        List<Product> produtos = productService.buscarPorNome(nome);
         return ResponseEntity.ok(produtos);
     }
 }

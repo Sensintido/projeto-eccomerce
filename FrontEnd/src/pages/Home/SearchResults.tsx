@@ -12,39 +12,30 @@ const SearchResults = () => {
   const query = searchParams.get('q') || '';
   const navigate = useNavigate();
 
-  const [produtos, setProdutos] = useState<any[]>([]);
   const [filtrados, setFiltrados] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+
   useEffect(() => {
+    if (!query) {
+      setFiltrados([]);
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
 
-    axios.get(`${API_URL}/api/produtos`)
+    axios.get(`${API_URL}/api/produtos/busca?nome=${encodeURIComponent(query)}`)
       .then(res => {
-        setProdutos(res.data);
+        setFiltrados(res.data);
         setLoading(false);
       })
       .catch(err => {
         console.error('Erro ao buscar produtos:', err);
+        setFiltrados([]);
         setLoading(false);
       });
-
-  }, []);
-
-  useEffect(() => {
-    if (!query) return;
-
-    const resultado = produtos.filter(p =>
-      p.name.toLowerCase().includes(query.toLowerCase()) ||
-      p.descricao?.toLowerCase().includes(query.toLowerCase()) ||
-      p.marca?.toLowerCase().includes(query.toLowerCase()) ||
-      p.categories?.some((c: any) =>
-        c.name.toLowerCase().includes(query.toLowerCase())
-      )
-    );
-
-    setFiltrados(resultado);
-  }, [query, produtos]);
+  }, [query]);
 
   return (
     <>
