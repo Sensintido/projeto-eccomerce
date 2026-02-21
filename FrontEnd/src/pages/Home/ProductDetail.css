@@ -553,6 +553,11 @@
 
   .product-images-column {
     position: static;
+    order: 1;
+  }
+
+  .product-info-column {
+    order: 2; 
   }
 
   .product-image-main {
@@ -561,7 +566,7 @@
 
   .product-purchase-column {
     position: static;
-    order: -1;
+    order: 3;
   }
 
   .quick-specs {
