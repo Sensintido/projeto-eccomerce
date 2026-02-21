@@ -6,13 +6,13 @@ import './CategoryPage.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-// 1. Atualize a interface Category para bater com o Back-end
+
 interface Category {
   id: number;
   name: string;
 }
 
-// 2. Atualize a interface Product para incluir a lista de categorias
+
 interface Product {
   id: number;
   name: string;

@@ -6,7 +6,7 @@ import ProductCard from "../Home/ProductCard";
 import './Home.css';
 import rtxImage from '../../assets/rtx.webp';
 
-// ✅ URL da API dinâmica
+
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 const Home = () => {
@@ -48,7 +48,7 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="hero-image">
+         <div className="hero-image" onClick={() => navigate('/produto/44')} style={{ cursor: 'pointer' }}>
             <img src={rtxImage} alt="Placa de Vídeo" />
             <div className="price-tag">
               <p>A partir de</p>
