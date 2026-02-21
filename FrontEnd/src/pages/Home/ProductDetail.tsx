@@ -127,16 +127,11 @@ function ProductDetail() {
           </div>
 
           <div className="quick-specs">
-            <div className="quick-spec-item">
+            <div className="quick-spec-item"  onClick={handleCategoryClick} style={{ cursor: 'pointer' }}>
               <img src={categoriaIcon} className="spec-icon" alt="Categoria" />
               <div className="spec-details">
                 <span className="spec-label">Categoria</span>
-                {/* ✅ Categoria clicável também no painel de specs */}
-                <span
-                  className="spec-value breadcrumb-link"
-                  onClick={handleCategoryClick}
-                  style={{ cursor: 'pointer' }}
-                >
+                <span>
                   {firstCategory ? firstCategory.name : 'Geral'}
                 </span>
               </div>
