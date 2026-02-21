@@ -173,10 +173,16 @@ function ProductDetail() {
 
           <div className="product-description-preview">
             <h3>Sobre o produto</h3>
-            <p>{product.descricao}</p>
+            <p style={{
+              display: '-webkit-box',
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden'
+                }}>
+              {product.descricao}
+            </p>
           </div>
         </div>
-
         <div className="product-purchase-column">
           <div className="purchase-box">
             <div className="price-section">
