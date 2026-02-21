@@ -574,6 +574,7 @@
   }
 }
 
+
 @media (max-width: 768px) {
   .product-detail-container {
     padding: 80px 4% 40px 4%;
@@ -607,6 +608,27 @@
   .product-image-main {
     height: 300px;
   }
+
+  .avaliacoes-score {
+    width: 100%;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 15px;
+  }
+
+  .score-number {
+    font-size: 2.2rem;
+  }
+
+  .score-stars {
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+  }
+
+  .score-total {
+    width: 100%;
+  }
 }
 
 @media (max-width: 480px) {
@@ -622,19 +644,10 @@
   .price-current {
     font-size: 1.6rem;
   }
-}
-@media (max-width: 768px) {
+
   .avaliacoes-score {
-    width: 100%;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .score-number {
-    font-size: 2.2rem;
-  }
-
-  .score-stars {
-    font-size: 1.1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
 }
